@@ -1,5 +1,10 @@
 backbone_ir50_asia_keras.h5
+input/
+output/
 backbone_ir50_ms1m_keras.h5
+cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+cuda/
+cudnn-10.0-linux-x64-v7.4.2.24.tgz
 lresnet100e_ir_keras.h5
 .idea
 *.pyc

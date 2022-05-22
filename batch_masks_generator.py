@@ -10,6 +10,8 @@ import os
 
 
 def save_mask_for(image_name, input_dir, output_dir):
+    print(input_dir)
+    print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
 
     prs = face_parser.FaceParser()
@@ -32,8 +34,10 @@ def save_mask_for(image_name, input_dir, output_dir):
     old_out = np.where(old_out == 18, 0, old_out)
     old_out = np.where(old_out == 4, 18, old_out)
     old_out = np.where(old_out == 5, 18, old_out)
+    old_out = np.where(old_out == 6, 18, old_out)
     old_out = np.where(old_out != 18, 0, old_out)
 
+    image_name = image_name[:-4]
     plt.imsave(output_dir + f'{image_name}.m.png', old_out, cmap=new_cmap)
 
     # vis_im = cv2.addWeighted(im, 0.1, cv2.cvtColor(old_out, cv2.COLOR_RGB2BGR), 0.9, 20)
@@ -44,12 +48,16 @@ def main(args):
     all_images = os.listdir(args.input_dir)
 
     # Test images are obtained on https://www.pexels.com/
+    count = 0
+    all_images.sort()
     for image_name in all_images:
-        save_mask_for(
-            image_name,
-            args.input_dir,
-            args.output_dir
+        if (count in (5, 9, 20, 21, 22, 23, 24, 25, 28, 40, 42, 50, 55, 65, 68, 70, 85) or count > 87) and count < 180:
+            save_mask_for(
+                image_name,
+                args.input_dir,
+                args.output_dir
             )
+        count += 1
 
 
 # Parse all the input argument
