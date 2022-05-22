@@ -23,7 +23,7 @@ def show_parsing_with_annos(data):
     mat = ax.matshow(data, cmap=new_cmap, vmin=-0.5, vmax=18.5)
     
     #tell the colorbar to tick at integers    
-    cbar = fig.colorbar(mat, ticks=np.arange(0, len(parsing_annos)))
-    cbar.ax.set_yticklabels(parsing_annos)
-    plt.axis('off')
+    # cbar = fig.colorbar(mat, ticks=np.arange(0, len(parsing_annos)))
+    # cbar.ax.set_yticklabels(parsing_annos)
+    # plt.axis('off')
     fig.show()
