@@ -9,7 +9,7 @@ import argparse
 import os
 
 
-def save_mask_for(image_name, input_dir, output_dir):
+def save_mask_for(image_name, input_dir, output_dir, prefix):
     print(input_dir)
     print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
@@ -38,7 +38,7 @@ def save_mask_for(image_name, input_dir, output_dir):
     old_out = np.where(old_out != 18, 0, old_out)
 
     image_name = image_name[:-4]
-    plt.imsave(output_dir + f'{image_name}.m.png', old_out, cmap=new_cmap)
+    plt.imsave(output_dir + f'{prefix}_{image_name}m.png', old_out, cmap=new_cmap)
 
     # vis_im = cv2.addWeighted(im, 0.1, cv2.cvtColor(old_out, cv2.COLOR_RGB2BGR), 0.9, 20)
     # plt.imshow(vis_im)
@@ -51,11 +51,12 @@ def main(args):
     count = 0
     all_images.sort()
     for image_name in all_images:
-        if (count in (5, 9, 20, 21, 22, 23, 24, 25, 28, 40, 42, 50, 55, 65, 68, 70, 85) or count > 87) and count < 180:
+        if count < 180:
             save_mask_for(
                 image_name,
                 args.input_dir,
-                args.output_dir
+                args.output_dir,
+                args.prefix
             )
         count += 1
 
@@ -64,7 +65,7 @@ def main(args):
 parser = argparse.ArgumentParser(description='PyTorch GAIN Training')
 parser.add_argument('--input_dir', help='path to the input idr', type=str)
 parser.add_argument('--output_dir', help='path to the outputdir', type=str)
-
+parser.add_argument('--prefix', help='prefix str to add to the output file name', type=str)
 if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
