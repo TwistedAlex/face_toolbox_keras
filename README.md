@@ -1,3 +1,11 @@
+## Requirements
+- Keras 2.2.4
+- TensorFlow 1.12.0, 1.13.1, or 1.15.2
+- CUDA 8.0
+- cudnn 6.0 for CUDA 8.0
+- Nvidia driver
+
+
 # face-toolbox-keras
 
 A collection of deep learning frameworks ported to Keras for face detection, face segmentation, face parsing, iris detection, and face verification. 
@@ -150,10 +158,6 @@ gender, age = gae.predict_gender_age(im, with_detection=True)
 
 ## Known issues
 It works fine on Colab at this point (2019/06/11) but for certain Keras/TensorFlow version, it throws errors loading `2DFAN-1_keras.h5` or `2DFAN-2_keras.h5`.
-
-## Requirements
-- Keras 2.2.4
-- TensorFlow 1.12.0 or 1.13.1
 
 ## Acknowledgments
 We learnt a lot from [1adrianb/face-alignment](https://github.com/1adrianb/face-alignment), [zllrunning/face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch), [swook/GazeML](https://github.com/swook/GazeML), [deepinsight/insightface](https://github.com/deepinsight/insightface), [davidsandberg/facenet](https://github.com/davidsandberg/facenet), and [ZhaoJ9014/face.evoLVe.PyTorch](https://github.com/ZhaoJ9014/face.evoLVe.PyTorch).
