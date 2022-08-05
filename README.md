@@ -1,6 +1,7 @@
 ## Requirements
 - Keras 2.2.4
 - TensorFlow 1.12.0, 1.13.1, or 1.15.2
+- h5py 2.10.0
 - CUDA 8.0
 - cudnn 6.0 for CUDA 8.0
 - Nvidia driver
