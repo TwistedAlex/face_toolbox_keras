@@ -10,26 +10,13 @@ import argparse
 import os
 
 
-def save_mask_for(image_name, input_dir, output_dir, idx):
+def save_mask_for(prs, new_cmap, image_name, input_dir, output_dir, idx):
     print(input_dir)
     print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
     output_name = image_name[:-4]
-    prs = face_parser.FaceParser()
+
     out = prs.parse_face(im)
-
-    parsing_annos = [
-        '0, background', '1, skin', '2, left eyebrow', '3, right eyebrow',
-        '4, left eye', '5, right eye', '6, glasses', '7, left ear', '8, right ear', '9, earings',
-        '10, nose', '11, mouth', '12, upper lip', '13, lower lip',
-        '14, neck', '15, neck_l', '16, cloth', '17, hair', '18, hat'
-    ]
-
-    # get discrete colormap
-    cmap = plt.get_cmap('gist_ncar', len(parsing_annos))
-    new_colors = cmap(np.linspace(0, 1, len(parsing_annos)))
-    new_colors[0, :] = np.array([0, 0, 0, 1.])
-    new_cmap = ListedColormap(new_colors)
 
     if idx < 0:
         # masks=out[0]==0
@@ -77,9 +64,25 @@ def main(args):
     # Test images are obtained on https://www.pexels.cosm/
     count = 0
     all_images.sort()
+    prs = face_parser.FaceParser()
+    parsing_annos = [
+        '0, background', '1, skin', '2, left eyebrow', '3, right eyebrow',
+        '4, left eye', '5, right eye', '6, glasses', '7, left ear', '8, right ear', '9, earings',
+        '10, nose', '11, mouth', '12, upper lip', '13, lower lip',
+        '14, neck', '15, neck_l', '16, cloth', '17, hair', '18, hat'
+    ]
+
+    # get discrete colormap
+    cmap = plt.get_cmap('gist_ncar', len(parsing_annos))
+    new_colors = cmap(np.linspace(0, 1, len(parsing_annos)))
+    new_colors[0, :] = np.array([0, 0, 0, 1.])
+    new_cmap = ListedColormap(new_colors)
+
     for image_name in all_images:
         if count < 1000000:
             save_mask_for(
+                prs,
+                new_cmap,
                 image_name,
                 args.input_dir,
                 args.output_dir,
