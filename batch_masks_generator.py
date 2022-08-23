@@ -1,5 +1,5 @@
 import warnings
-
+import PIL.Image
 warnings.filterwarnings("ignore")
 import cv2
 from matplotlib import pyplot as plt
@@ -14,7 +14,7 @@ def save_mask_for(image_name, input_dir, output_dir, idx):
     print(input_dir)
     print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
-    image_name = image_name[:-4]
+    output_name = image_name[:-4]
     prs = face_parser.FaceParser()
     out = prs.parse_face(im)
 
@@ -32,7 +32,9 @@ def save_mask_for(image_name, input_dir, output_dir, idx):
     new_cmap = ListedColormap(new_colors)
 
     if idx < 0:
-        plt.imsave(output_dir + f'{image_name}m.png', out, cmap=new_cmap)
+        # masks=out[0]==0
+        # np_img = np.asarray(PIL.Image.open(input_dir + image_name).convert('RGB'))
+        plt.imsave(output_dir + image_name, out[0], cmap=new_cmap)
     else:
         old_out = out[0]
         old_out = np.where(old_out == 18, 0, old_out)
@@ -59,20 +61,19 @@ def save_mask_for(image_name, input_dir, output_dir, idx):
 
         old_out = np.where(old_out != 18, 0, old_out)
 
-
-        plt.imsave(output_dir + f'{image_name}m.png', old_out, cmap=new_cmap)
+        plt.imsave(output_dir + f'{output_name}m.png', old_out, cmap=new_cmap)
 
         # vis_im = cv2.addWeighted(im, 0.1, cv2.cvtColor(old_out, cv2.COLOR_RGB2BGR), 0.9, 20)
         # plt.imshow(vis_im)
 
 
 def main(args):
-    input_dir = "E:\\ResearchData\\stylegan-psi05\\training\\Pos\\"
-    output_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
+    # input_dir = "E:\\ResearchData\\stylegan-psi05\\training\\Pos\\"
+    # output_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
     prefix = ""
     # modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
     modes = ["segmentation"]
-    all_images = os.listdir(input_dir)
+    all_images = os.listdir(args.input_dir)
     # Test images are obtained on https://www.pexels.cosm/
     count = 0
     all_images.sort()
@@ -81,8 +82,8 @@ def main(args):
             if count < 500:
                 save_mask_for(
                     image_name,
-                    input_dir,
-                    output_dir + modes[idx] + "\\",
+                    args.input_dir,
+                    args.output_dir + modes[idx] + "\\",
                     -1
                 )
         count += 1
