@@ -72,20 +72,19 @@ def main(args):
     # output_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
     prefix = ""
     # modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
-    modes = ["segmentation"]
+    # modes = ["segmentation"]
     all_images = os.listdir(args.input_dir)
     # Test images are obtained on https://www.pexels.cosm/
     count = 0
     all_images.sort()
     for image_name in all_images:
-        for idx in range(len(modes)):
-            if count < 500:
-                save_mask_for(
-                    image_name,
-                    args.input_dir,
-                    args.output_dir + modes[idx] + "\\",
-                    -1
-                )
+        if count < 1000000:
+            save_mask_for(
+                image_name,
+                args.input_dir,
+                args.output_dir,
+                -1
+            )
         count += 1
 
 
