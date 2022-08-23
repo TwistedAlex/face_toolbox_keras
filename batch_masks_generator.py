@@ -1,4 +1,5 @@
 import warnings
+
 warnings.filterwarnings("ignore")
 import cv2
 from matplotlib import pyplot as plt
@@ -9,11 +10,11 @@ import argparse
 import os
 
 
-def save_mask_for(image_name, input_dir, output_dir, prefix):
+def save_mask_for(image_name, input_dir, output_dir, idx):
     print(input_dir)
     print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
-
+    image_name = image_name[:-4]
     prs = face_parser.FaceParser()
     out = prs.parse_face(im)
 
@@ -30,34 +31,60 @@ def save_mask_for(image_name, input_dir, output_dir, prefix):
     new_colors[0, :] = np.array([0, 0, 0, 1.])
     new_cmap = ListedColormap(new_colors)
 
-    old_out = out[0]
-    old_out = np.where(old_out == 18, 0, old_out)
-    old_out = np.where(old_out == 4, 18, old_out)
-    old_out = np.where(old_out == 5, 18, old_out)
-    old_out = np.where(old_out == 6, 18, old_out)
-    old_out = np.where(old_out != 18, 0, old_out)
+    if idx < 0:
+        plt.imsave(output_dir + f'{image_name}m.png', out, cmap=new_cmap)
+    else:
+        old_out = out[0]
+        old_out = np.where(old_out == 18, 0, old_out)
+        if idx == 0:  # ear
+            old_out = np.where(old_out == 7, 18, old_out)
+            old_out = np.where(old_out == 8, 18, old_out)
+            old_out = np.where(old_out == 9, 18, old_out)
+        elif idx == 1:  # mouth
+            old_out = np.where(old_out == 11, 18, old_out)
+            old_out = np.where(old_out == 12, 18, old_out)
+            old_out = np.where(old_out == 13, 18, old_out)
+        elif idx == 2:  # nose
+            old_out = np.where(old_out == 10, 18, old_out)
+        elif idx == 3:  # eye
+            old_out = np.where(old_out == 4, 18, old_out)
+            old_out = np.where(old_out == 5, 18, old_out)
+            old_out = np.where(old_out == 6, 18, old_out)
+        elif idx == 4:  # eyebrow
+            old_out = np.where(old_out == 2, 18, old_out)
+            old_out = np.where(old_out == 3, 18, old_out)
+        elif idx == 5:  # neck
+            old_out = np.where(old_out == 14, 18, old_out)
+            old_out = np.where(old_out == 15, 18, old_out)
 
-    image_name = image_name[:-4]
-    plt.imsave(output_dir + f'{prefix}_{image_name}m.png', old_out, cmap=new_cmap)
+        old_out = np.where(old_out != 18, 0, old_out)
 
-    # vis_im = cv2.addWeighted(im, 0.1, cv2.cvtColor(old_out, cv2.COLOR_RGB2BGR), 0.9, 20)
-    # plt.imshow(vis_im)
+
+        plt.imsave(output_dir + f'{image_name}m.png', old_out, cmap=new_cmap)
+
+        # vis_im = cv2.addWeighted(im, 0.1, cv2.cvtColor(old_out, cv2.COLOR_RGB2BGR), 0.9, 20)
+        # plt.imshow(vis_im)
 
 
 def main(args):
-    all_images = os.listdir(args.input_dir)
-
-    # Test images are obtained on https://www.pexels.com/
+    input_dir = "E:\\ResearchData\\stylegan-psi05\\training\\Pos\\"
+    output_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
+    prefix = ""
+    # modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
+    modes = ["segmentation"]
+    all_images = os.listdir(input_dir)
+    # Test images are obtained on https://www.pexels.cosm/
     count = 0
     all_images.sort()
     for image_name in all_images:
-        if count < 180:
-            save_mask_for(
-                image_name,
-                args.input_dir,
-                args.output_dir,
-                args.prefix
-            )
+        for idx in range(len(modes)):
+            if count < 500:
+                save_mask_for(
+                    image_name,
+                    input_dir,
+                    output_dir + modes[idx] + "\\",
+                    -1
+                )
         count += 1
 
 
