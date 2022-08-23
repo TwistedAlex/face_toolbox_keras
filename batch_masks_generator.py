@@ -79,16 +79,14 @@ def main(args):
     new_cmap = ListedColormap(new_colors)
 
     for image_name in all_images:
-        if count > 65:
-            save_mask_for(
-                prs,
-                new_cmap,
-                image_name,
-                args.input_dir,
-                args.output_dir,
-                -1
-            )
-        count += 1
+        save_mask_for(
+            prs,
+            new_cmap,
+            image_name,
+            args.input_dir,
+            args.output_dir,
+            -1
+        )
 
 
 # Parse all the input argument
