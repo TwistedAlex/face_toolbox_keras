@@ -46,9 +46,9 @@ def main(args):
 
 # Parse all the input argument
 parser = argparse.ArgumentParser(description='PyTorch GAIN Training')
-parser.add_argument('--input_dir', help='path to the input idr', type=str)
-parser.add_argument('--output_dir', help='path to the outputdir', type=str)
-parser.add_argument('--prefix', help='prefix str to add to the output file name', type=str)
+parser.add_argument('--segmentation_dir', help='path to the input idr', type=str)
+parser.add_argument('--orig_path', help='path to the outputdir', type=str)
+parser.add_argument('--output_dir', help='prefix str to add to the output file name', type=str)
 if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
