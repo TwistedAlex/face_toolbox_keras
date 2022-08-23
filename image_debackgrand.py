@@ -4,8 +4,6 @@ warnings.filterwarnings("ignore")
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
-from matplotlib.colors import ListedColormap
-
 import argparse
 import os
 
@@ -30,7 +28,7 @@ def main(args):
     orig_path = "E:\\ResearchData\\stylegan-psi05\\training\\Pos\\"
     output_dir = "E:\\ResearchData\\MASKS\\s1p05\\debackground\\"
 
-    all_images = os.listdir(segmentation_dir)
+    all_images = os.listdir(args.segmentation_dir)
 
     count = 0
     all_images.sort()
@@ -38,9 +36,9 @@ def main(args):
         if count < 1000000:
             save_mask_for(
                 image_name,
-                segmentation_dir,
-                orig_path,
-                output_dir,
+                args.segmentation_dir,
+                args.orig_path,
+                args.output_dir,
                 -1
             )
         count += 1
