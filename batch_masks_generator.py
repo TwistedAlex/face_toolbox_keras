@@ -79,7 +79,7 @@ def main(args):
     new_cmap = ListedColormap(new_colors)
 
     for image_name in all_images:
-        if count < 1000000:
+        if count > 65:
             save_mask_for(
                 prs,
                 new_cmap,
