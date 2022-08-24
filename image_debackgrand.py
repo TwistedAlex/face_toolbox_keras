@@ -18,9 +18,9 @@ def save_mask_for(image_name, segmentation_dir, orig_path, output_dir, idx):
         red, green, blue = out[:, :, 0], out[:, :, 1], out[:, :, 2]
         mask = (red == r1) & (green == g1) & (blue == b1)
 
-        np_img = np.asarray(PIL.Image.open(orig_path + image_name).convert('RGB'))
+        np_img = np.asarray(cv2.imread(orig_path + image_name))
         np_img[:, :, :3][mask] = [r2, g2, b2]
-        plt.imsave(output_dir + image_name, np_img)
+        cv2.imwrite(output_dir + image_name, np_img)
 
 
 def main(args):
