@@ -11,7 +11,6 @@ import os
 
 
 def save_mask_for(prs, new_cmap, image_name, input_dir, output_dir, idx):
-    print(input_dir)
     print(image_name)
     im = cv2.imread(input_dir + image_name)[..., ::-1]
     output_name = image_name[:-4]
@@ -58,11 +57,16 @@ def main(args):
     # input_dir = "E:\\ResearchData\\stylegan-psi05\\training\\Pos\\"
     # output_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
     prefix = ""
-    # modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
+    modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
     # modes = ["segmentation"]
+    selected_modes = [0, ]
     all_images = os.listdir(args.input_dir)
+    print(args.input_dir)
     # Test images are obtained on https://www.pexels.cosm/
     count = 0
+    limit = True
+    limit_low = 499
+    limit_high = 1500
     all_images.sort()
     prs = face_parser.FaceParser()
     parsing_annos = [
@@ -79,14 +83,27 @@ def main(args):
     new_cmap = ListedColormap(new_colors)
 
     for image_name in all_images:
-        save_mask_for(
-            prs,
-            new_cmap,
-            image_name,
-            args.input_dir,
-            args.output_dir,
-            -1
-        )
+        if limit:
+            for idx in selected_modes:
+                if limit_low < count < limit_high:
+                    save_mask_for(
+                        prs,
+                        new_cmap,
+                        image_name,
+                        args.input_dir,
+                        args.output_dir + modes[idx] + "//",
+                        idx
+                    )
+        else:
+            save_mask_for(
+                prs,
+                new_cmap,
+                image_name,
+                args.input_dir,
+                args.output_dir,
+                -1
+            )
+        count += 1
 
 
 # Parse all the input argument
