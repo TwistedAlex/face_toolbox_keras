@@ -161,24 +161,24 @@ def main():
     limit = 500
     max_patches = 100
 
-    for idx in range(len(modes)):
-        print(modes[idx])
-        pathlib.Path(output_dir + modes[idx]).mkdir(parents=True, exist_ok=True)
-        pathlib.Path(input_dir + modes[idx]).mkdir(parents=True, exist_ok=True)
-        generate_masks(draft_dir + modes[idx], input_dir + modes[idx], limit)
-
-    wrinkles_dir = "E:\\ResearchData\\MASKS\\manual\\s1p05\\input\\wrinkles_others_orig\\"
-    output_wrinkles_dir = "E:\\ResearchData\\MASKS\\manual\\s1p05\\input\\wrinkles_others\\"
-    target_modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
+    # for idx in range(len(modes)):
+    #     print(modes[idx])
+    #     pathlib.Path(output_dir + modes[idx]).mkdir(parents=True, exist_ok=True)
+    #     pathlib.Path(input_dir + modes[idx]).mkdir(parents=True, exist_ok=True)
+    #     generate_masks(draft_dir + modes[idx], input_dir + modes[idx], limit)
+    #
+    # wrinkles_dir = "E:\\ResearchData\\MASKS\\manual\\s1p05\\input\\wrinkles_others_orig\\"
+    # output_wrinkles_dir = "E:\\ResearchData\\MASKS\\manual\\s1p05\\input\\wrinkles_others\\"
+    # target_modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck"]
     class_masks_dir = "E:\\ResearchData\\MASKS\\s1p05\\"
-
-    classify_masks(wrinkles_dir, input_dir, output_wrinkles_dir, target_modes, class_masks_dir, limit)
-
-    all_modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck", "waterdrops", "wrinkles_others", "hair"]
-
-    for idx in range(len(all_modes)):
-        pick_masks(input_dir + all_modes[idx] + "\\", output_dir + all_modes[idx] + "\\", limit, num=max_patches)
-    merge_masks([output_dir + mo + "\\" for mo in all_modes], merge_dir, limit)
+    #
+    # classify_masks(wrinkles_dir, input_dir, output_wrinkles_dir, target_modes, class_masks_dir, limit)
+    #
+    # all_modes = ["ear", "mouth", "nose", "eye", "eyebrow", "neck", "waterdrops", "wrinkles_others", "hair"]
+    #
+    # for idx in range(len(all_modes)):
+    #     pick_masks(input_dir + all_modes[idx] + "\\", output_dir + all_modes[idx] + "\\", limit, num=max_patches)
+    # merge_masks([output_dir + mo + "\\" for mo in all_modes], merge_dir, limit)
     # resize_masks(merge_dir, resize_merge_dir, 0.5, limit)
 
     merged_dir = "E:\\ResearchData\\MASKS\\manual\\s1p05\\output\\merged\\"
