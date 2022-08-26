@@ -64,9 +64,9 @@ def main(args):
     print(args.input_dir)
     # Test images are obtained on https://www.pexels.cosm/
     count = 0
-    limit = True
-    limit_low = 499
-    limit_high = 1500
+    limit = args.mode
+    limit_low = -1
+    limit_high = args.high
     all_images.sort()
     prs = face_parser.FaceParser()
     parsing_annos = [
@@ -83,7 +83,7 @@ def main(args):
     new_cmap = ListedColormap(new_colors)
 
     for image_name in all_images:
-        if limit:
+        if args.mode > 0:
             for idx in selected_modes:
                 if limit_low < count < limit_high:
                     save_mask_for(
@@ -110,7 +110,8 @@ def main(args):
 parser = argparse.ArgumentParser(description='PyTorch GAIN Training')
 parser.add_argument('--input_dir', help='path to the input idr', type=str)
 parser.add_argument('--output_dir', help='path to the outputdir', type=str)
-parser.add_argument('--prefix', help='prefix str to add to the output file name', type=str)
+parser.add_argument('--mode', help='prefix str to add to the output file name', type=int)
+parser.add_argument('--high', help='prefix str to add to the output file name', type=int)
 if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
