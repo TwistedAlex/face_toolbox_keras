@@ -18,9 +18,7 @@ def save_mask_for(prs, new_cmap, image_name, input_dir, output_dir, idx):
     out = prs.parse_face(im)
 
     old_out = out[0]
-    old_out = np.where(old_out == 18, 1, old_out)
-    old_out = np.where(old_out == 0, 18, old_out)
-    old_out = np.where(old_out != 0, 0, old_out)
+    old_out = np.where(old_out != 0, 18, old_out)
 
     plt.imsave(output_dir + f'{output_name}m.png', old_out, cmap=new_cmap)
 
